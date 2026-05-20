@@ -1,0 +1,29 @@
+{
+  "name": "aws-infra-control-center",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "npx tsc --watch",
+    "dev": "node --watch index.ts",
+    "start": "node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/branislav-markovic/aws-infra-control-center.git"
+  },
+  "keywords": [],
+  "author": "Branislav",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/branislav-markovic/aws-infra-control-center/issues"
+  },
+  "homepage": "https://github.com/branislav-markovic/aws-infra-control-center#readme",
+  "devDependencies": {
+    "@types/node": "^25.6.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ec2": "^3.1049.0"
+  }
+}
