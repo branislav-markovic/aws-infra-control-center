@@ -42,9 +42,6 @@ async function main() {
     } else {
         console.log(styleText('red', 'Invalid option selected. Exiting...'));
     }
-
-    console.log(`You selected option: ${choice}`);
-
     rl.close();
 }
 
