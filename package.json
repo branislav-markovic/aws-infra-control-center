@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "npx tsc --watch",
     "dev": "node --watch index.ts",
-    "start": "node index.ts"
+    "start": "npx tsx index.ts"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/branislav-markovic/aws-infra-control-center#readme",
   "devDependencies": {
-    "@types/node": "^25.6.0"
+    "@types/node": "^25.6.0",
+    "tsx": "^4.22.3"
   },
   "dependencies": {
     "@aws-sdk/client-ec2": "^3.1049.0"
