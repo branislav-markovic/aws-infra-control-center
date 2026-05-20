@@ -5,19 +5,27 @@ export class EC2Service {
 
     async launchInstance(): Promise<void> {
         const params = {
-            ImageId: 'ami-0c55b159cbfafe1f0', // Amazon Linux 2 AMI
+            ImageId: 'ami-0c7217cdde317cfec', // Amazon Linux 2 AMI
             InstanceType: _InstanceType.t2_micro,
             MinCount: 1,
             MaxCount: 1,
         };
-        console.log('Launching new EC2 Instance...');
-        const data = await this.client.send(new RunInstancesCommand(params));
-        console.log('EC2 Instance launched successfully:', data.Instances?.[0].InstanceId);
+        try {
+            console.log('Launching new EC2 Instance...');
+            const data = await this.client.send(new RunInstancesCommand(params));
+            console.log('EC2 Instance launched successfully:', data.Instances?.[0].InstanceId);
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     async listInstances(): Promise<void> {
-        console.log('Listing all EC2 Instances...');
-        const data = await this.client.send(new DescribeInstancesCommand({}));
-        console.log('EC2 Instances:', data.Reservations);
+        try {
+            console.log('Listing all EC2 Instances...');
+            const data = await this.client.send(new DescribeInstancesCommand({}));
+            console.log('EC2 Instances:', data.Reservations);
+        } catch(error) {
+            console.error(error);
+        }
     }
 }
