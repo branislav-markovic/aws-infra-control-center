@@ -39,7 +39,8 @@ async function main(ec2Service: EC2Service) {
     const selectedAction = menuMap.get(Number(choice));
 
     if (selectedAction) {
-        await selectedAction.action();
+        let result = await selectedAction.action();
+        console.log(result ?? styleText('green', 'Action completed successfully.'));
     } else {
         console.log(styleText('red', 'Invalid option selected. Exiting...'));
     }
