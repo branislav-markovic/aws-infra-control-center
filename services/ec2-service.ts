@@ -1,11 +1,11 @@
 import { EC2Client, RunInstancesCommand, DescribeInstancesCommand, _InstanceType } from '@aws-sdk/client-ec2';
-
+import { awsConfig } from '../config/aws.config.js';
 export class EC2Service {
-    private client = new EC2Client({ region: 'us-east-1' });
+    private client = new EC2Client({ region: awsConfig.region });
 
     async launchInstance(): Promise<void> {
         const params = {
-            ImageId: 'ami-0c7217cdde317cfec', // Amazon Linux 2 AMI
+            ImageId: awsConfig.amiId,
             InstanceType: _InstanceType.t2_micro,
             MinCount: 1,
             MaxCount: 1,
