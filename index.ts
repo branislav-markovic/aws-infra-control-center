@@ -4,8 +4,9 @@ import { styleText } from 'node:util';
 import type { MenuItem } from './interfaces/menu-item.ts';
 import { EC2Service } from './services/ec2-service.js';
 
-async function main() {
-    const ec2Service = new EC2Service();
+const ec2Service = new EC2Service();
+
+async function main(ec2Service: EC2Service) {
     const rl = readline.createInterface({input, output});
     console.clear();
     const menu: MenuItem[] = [
@@ -45,4 +46,4 @@ async function main() {
     rl.close();
 }
 
-main();
+main(ec2Service);
