@@ -14,13 +14,13 @@ async function main(ec2Service: EC2Service) {
             id: 1,
             label: 'Launch new EC2 Instance',
             icon: '🚀',
-            action: () => ec2Service.launchInstance(),
+            action: async () => { await ec2Service.launchInstance(); },
         },
         {
             id: 2,
             label: 'List all EC2 Instances',
             icon: '📊',
-            action: () => ec2Service.listInstances(),
+            action: async () => { await ec2Service.listInstances(); },
         },
     ];
 
