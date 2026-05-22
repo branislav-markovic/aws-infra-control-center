@@ -3,8 +3,7 @@ import { stdin as input, stdout as output } from 'node:process';
 import { styleText } from 'node:util';
 import type { MenuItem } from './interfaces/menu-item.ts';
 import { EC2Service } from './services/ec2-service.js';
-
-const ec2Service = new EC2Service();
+import { EC2ServiceFactory } from './factories/ec2-service.factory.js';;
 
 async function main(ec2Service: EC2Service) {
     const rl = readline.createInterface({input, output});
@@ -47,4 +46,4 @@ async function main(ec2Service: EC2Service) {
     rl.close();
 }
 
-main(ec2Service);
+main(EC2ServiceFactory.create());
