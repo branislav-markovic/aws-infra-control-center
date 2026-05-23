@@ -1,5 +1,6 @@
 import { EC2Client, RunInstancesCommand, DescribeInstancesCommand, _InstanceType, Reservation, Instance } from '@aws-sdk/client-ec2';
 import { awsConfig } from '../config/aws.config.js';
+
 export class EC2Service {
     constructor(private client: EC2Client) {}
 

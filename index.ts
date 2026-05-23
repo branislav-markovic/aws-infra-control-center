@@ -9,19 +9,30 @@ import { S3ServiceFactory } from './factories/s3-service.factory.js';
 
 async function main(ec2Service: EC2Service, s3Service: S3Service) {
     const rl = readline.createInterface({input, output});
-    console.clear();
     const menu: MenuItem[] = [
+        {
+            id: 0,
+            label: 'Exit',
+            icon: '❌',
+            action: async () => {},
+        },
         {
             id: 1,
             label: 'Launch new EC2 Instance',
             icon: '🚀',
-            action: async () => { await ec2Service.launchInstance(); },
+            action: async () => {
+                let result = await ec2Service.launchInstance();
+                console.log(styleText('green', `EC2 Instance launched with ID: ${result}`));
+            },
         },
         {
             id: 2,
             label: 'List all EC2 Instances',
             icon: '📋',
-            action: async () => { await ec2Service.listInstances(); },
+            action: async () => {
+                let result = await ec2Service.listInstances();
+                console.log(styleText('green', `EC2 Instances:\n${result}`));
+            },
         },
         {
             id: 3,
@@ -33,7 +44,8 @@ async function main(ec2Service: EC2Service, s3Service: S3Service) {
                     console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
                     return;
                 }
-                await s3Service.createNewBucket(bucketName);
+                let result = await s3Service.createNewBucket(bucketName);
+                console.log(styleText('green', 'New S3 Bucket created successfully: ' + result));
             },
         },
     ];
@@ -42,21 +54,30 @@ async function main(ec2Service: EC2Service, s3Service: S3Service) {
         menu.map(item => [item.id, item])
     );
 
-    console.log(styleText('yellow', 'AWS CLI Menu:'));
+    let running = true;
+    while (running) {
+        console.clear();
+        console.log(styleText('yellow', 'AWS CLI Menu:'));
 
-    menu.forEach(menuItem => {
-        let item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
-        console.log(styleText('cyan', item));
-    });
+        menu.forEach(menuItem => {
+            let item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
+            console.log(styleText('cyan', item));
+        });
 
-    const choice = await rl.question('Please select an option: ');
-    const selectedAction = menuMap.get(Number(choice));
+        const choice = await rl.question('Please select an option: ');
+        if (Number(choice) === 0) {
+            console.log(styleText('yellow', 'Exiting...'));
+            running = false;
+            continue;
+        }
 
-    if (selectedAction) {
-        let result = await selectedAction.action();
-        console.log(result ?? styleText('green', 'Action completed successfully.'));
-    } else {
-        console.log(styleText('red', 'Invalid option selected. Exiting...'));
+        const selectedAction = menuMap.get(Number(choice));
+        if (selectedAction) {
+            await selectedAction.action();
+        } else {
+            console.log(styleText('red', 'Invalid option selected.'));
+        }
+        await rl.question('Press Enter to continue...');
     }
     rl.close();
 }
