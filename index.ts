@@ -3,9 +3,11 @@ import { stdin as input, stdout as output } from 'node:process';
 import { styleText } from 'node:util';
 import type { MenuItem } from './interfaces/menu-item.ts';
 import { EC2Service } from './services/ec2-service.js';
-import { EC2ServiceFactory } from './factories/ec2-service.factory.js';;
+import { EC2ServiceFactory } from './factories/ec2-service.factory.js';
+import { S3Service } from './services/s3-service.js';
+import { S3ServiceFactory } from './factories/s3-service.factory.js';
 
-async function main(ec2Service: EC2Service) {
+async function main(ec2Service: EC2Service, s3Service: S3Service) {
     const rl = readline.createInterface({input, output});
     console.clear();
     const menu: MenuItem[] = [
@@ -18,8 +20,21 @@ async function main(ec2Service: EC2Service) {
         {
             id: 2,
             label: 'List all EC2 Instances',
-            icon: '📊',
+            icon: '📋',
             action: async () => { await ec2Service.listInstances(); },
+        },
+        {
+            id: 3,
+            label: 'Create new S3 Bucket',
+            icon: '📦',
+            action: async () => {
+                const bucketName = (await rl.question('Enter the name of the new S3 bucket: ')).trim();
+                if (!bucketName) {
+                    console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
+                    return;
+                }
+                await s3Service.createNewBucket(bucketName);
+            },
         },
     ];
 
@@ -46,4 +61,4 @@ async function main(ec2Service: EC2Service) {
     rl.close();
 }
 
-main(EC2ServiceFactory.create());
+main(EC2ServiceFactory.create(), S3ServiceFactory.create());
