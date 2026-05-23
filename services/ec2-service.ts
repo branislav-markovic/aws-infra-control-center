@@ -1,7 +1,7 @@
 import { EC2Client, RunInstancesCommand, DescribeInstancesCommand, _InstanceType, Reservation, Instance } from '@aws-sdk/client-ec2';
 import { awsConfig } from '../config/aws.config.js';
 export class EC2Service {
-    private client = new EC2Client({ region: awsConfig.region });
+    constructor(private client: EC2Client) {}
 
     async launchInstance(): Promise<string> {
         const params = {
