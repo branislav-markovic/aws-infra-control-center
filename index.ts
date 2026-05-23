@@ -7,10 +7,12 @@ import { EC2ServiceFactory } from './factories/ec2-service.factory.js';
 import { S3Service } from './services/s3-service.js';
 import { S3ServiceFactory } from './factories/s3-service.factory.js';
 import { createAwsMenu } from './aws-menu.js';
+import { PromptService } from './services/prompt-service.js';
 
 async function main(ec2Service: EC2Service, s3Service: S3Service) {
     const rl = readline.createInterface({input, output});
-    const menu = createAwsMenu(ec2Service, s3Service, rl);
+    const promptService = new PromptService(rl);
+    const menu = createAwsMenu(ec2Service, s3Service, promptService);
 
     const menuMap = new Map<number, MenuItem>(
         menu.map(item => [item.id, item])
