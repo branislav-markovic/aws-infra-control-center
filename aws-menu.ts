@@ -12,7 +12,7 @@ export function createAwsMenu(
     s3Service:S3Service,
     promptService: PromptService
 ): MenuItem[] {
-        const menu: MenuItem[] = [
+    const menu: MenuItem[] = [
         {
             id: 0,
             label: 'Exit',
