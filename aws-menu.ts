@@ -3,6 +3,9 @@ import { styleText } from 'node:util';
 import { EC2Service } from "./services/ec2-service.js";
 import { S3Service } from "./services/s3-service.js";
 import { PromptService } from "./services/prompt-service.js";
+import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-command.js";
+import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js";
+import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.js";
 
 export function createAwsMenu(
     ec2Service: EC2Service,
@@ -21,8 +24,8 @@ export function createAwsMenu(
             label: 'Launch new EC2 Instance',
             icon: '🚀',
             action: async () => {
-                let result = await ec2Service.launchInstance();
-                console.log(styleText('green', `EC2 Instance launched with ID: ${result}`));
+                const launchEC2InstanceCommand = new LaunchEC2Instance(ec2Service);
+                await launchEC2InstanceCommand.execute();
             },
         },
         {
@@ -30,8 +33,8 @@ export function createAwsMenu(
             label: 'List all EC2 Instances',
             icon: '📋',
             action: async () => {
-                let result = await ec2Service.listInstances();
-                console.log(styleText('green', `EC2 Instances:\n${result}`));
+                const listEC2InstancesCommand = new ListEC2InstancesCommand(ec2Service);
+                await listEC2InstancesCommand.execute();
             },
         },
         {
@@ -44,8 +47,8 @@ export function createAwsMenu(
                     console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
                     return;
                 }
-                let result = await s3Service.createNewBucket(bucketName);
-                console.log(styleText('green', 'New S3 Bucket created successfully: ' + result));
+                const createS3BucketCommand = new CreateS3BucketCommand(s3Service, bucketName);
+                await createS3BucketCommand.execute();
             },
         },
     ];
