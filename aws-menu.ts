@@ -7,6 +7,7 @@ import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-comma
 import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js";
 import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.js";
 import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
+import { DeleteEC2InstanceCommand } from "./aws_commands/delete-ec2-instance-command.js";
 
 export function createAwsMenu(
     ec2Service: EC2Service,
@@ -64,6 +65,20 @@ export function createAwsMenu(
                 }
                 const deleteS3BucketCommand = new DeleteS3BucketCommand(s3Service, bucketName);
                 await deleteS3BucketCommand.execute();
+            },
+        },
+        {
+            id: 5,
+            label: 'Delete EC2 Instance',
+            icon: '🗑️ ',
+            action: async () => {
+                const instanceId = (await promptService.ask('Enter the ID of the EC2 instance to delete: ')).trim();
+                if (!instanceId) {
+                    console.log(styleText('red', 'Instance ID cannot be empty. Action cancelled.'));
+                    return;
+                }
+                const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(ec2Service, instanceId);
+                await deleteEC2InstanceCommand.execute();
             },
         },
     ];
