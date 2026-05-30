@@ -8,6 +8,7 @@ import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js
 import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.js";
 import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
 import { DeleteEC2InstanceCommand } from "./aws_commands/delete-ec2-instance-command.js";
+import { RebootEC2InstanceCommand } from "./aws_commands/reboot-ec2-instance-command.js";
 
 export function createAwsMenu(
     ec2Service: EC2Service,
@@ -79,6 +80,20 @@ export function createAwsMenu(
                 }
                 const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(ec2Service, instanceId);
                 await deleteEC2InstanceCommand.execute();
+            },
+        },
+        {
+            id: 6,
+            label: 'Reboot EC2 Instance',
+            icon: '🔄',
+            action: async () => {
+                const instanceId = (await promptService.ask('Enter the ID of the EC2 instance to reboot: ')).trim();
+                if (!instanceId) {
+                    console.log(styleText('red', 'Instance ID cannot be empty. Action cancelled.'));
+                    return;
+                }
+                const rebootEC2InstanceCommand = new RebootEC2InstanceCommand(ec2Service, instanceId);
+                await rebootEC2InstanceCommand.execute();
             },
         },
     ];

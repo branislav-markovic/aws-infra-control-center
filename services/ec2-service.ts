@@ -5,7 +5,8 @@ import {
     TerminateInstancesCommand,
     _InstanceType,
     Reservation,
-    Instance
+    Instance,
+    RebootInstancesCommand
 } from '@aws-sdk/client-ec2';
 import { awsConfig } from '../config/aws.config.js';
 
@@ -57,6 +58,18 @@ export class EC2Service {
         } catch (error) {
             console.error(error);
             throw new Error(`Failed to terminate instance "${instanceId}".`);
+        }
+    }
+
+    async rebootInstance(instanceId: string): Promise<string> {
+        try {
+            await this.client.send(new RebootInstancesCommand({
+                InstanceIds: [instanceId],
+            }));
+            return `Instance "${instanceId}" rebooted successfully.`;
+        } catch (error) {
+            console.error(error);
+            throw new Error(`Failed to reboot instance "${instanceId}".`);
         }
     }
 }
