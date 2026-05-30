@@ -7,9 +7,12 @@ A simple CLI application built with TypeScript, Node.js and AWS SDK v3 for manag
 ### EC2
 - Launch a new EC2 instance
 - List all EC2 instances
+- Delete an EC2 instance
+- Reboot an EC2 instance
 
 ### S3
 - Create a new S3 bucket
+- Delete an S3 bucket
 
 ---
 
@@ -24,7 +27,7 @@ A simple CLI application built with TypeScript, Node.js and AWS SDK v3 for manag
 # Project Structure
 
 ```bash
-src/
+├── aws_commands/
 ├── config/
 ├── factories/
 ├── interfaces/
@@ -99,7 +102,7 @@ npm install
 Update AWS configuration inside:
 
 ```bash
-src/config/aws.config.ts
+config/aws.config.ts
 ```
 
 Example:
@@ -121,12 +124,6 @@ Development mode:
 npm run dev
 ```
 
-Build project:
-
-```bash
-npm run build
-```
-
 Run compiled version:
 
 ```bash
@@ -140,9 +137,13 @@ npm start
 ```bash
 AWS CLI Menu:
 
+0. ❌ Exit
 1. 🚀 Launch new EC2 Instance
 2. 📋 List all EC2 Instances
 3. 📦 Create new S3 Bucket
+4. 🗑️  Delete S3 Bucket
+5. 🗑️  Delete EC2 Instance
+6. 🔄 Reboot EC2 Instance
 ```
 
 ---
@@ -168,6 +169,24 @@ i-0fedcba9876543210
 Bucket "my-bucket" created successfully.
 ```
 
+## Delete S3 Bucket
+
+```bash
+Bucket "my-bucket" deleted successfully.
+```
+
+## Delete EC2 Instance
+
+```bash
+Instance "i-0123456789abcdef0" terminated successfully.
+```
+
+## Reboot EC2 Instance
+
+```bash
+Instance "i-0123456789abcdef0" rebooted successfully.
+```
+
 ---
 
 # Learning Goals
@@ -178,6 +197,7 @@ This project was built for practicing:
 - AWS SDK v3
 - Dependency Injection
 - Factory Pattern
+- Command Pattern
 - CLI application architecture
 - Clean code principles
 
