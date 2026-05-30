@@ -1,4 +1,4 @@
-import { CreateBucketCommand, S3Client } from "@aws-sdk/client-s3";
+import { CreateBucketCommand, DeleteBucketCommand, S3Client } from "@aws-sdk/client-s3";
 
 export class S3Service {
     constructor(private client: S3Client) {}
@@ -15,5 +15,17 @@ export class S3Service {
             console.error(error);
             throw new Error(`Failed to create bucket "${bucketName}".`);
         }
+    }
+
+    async deleteBucket(bucketName: string): Promise<string> {
+        try {        
+            await this.client.send(
+                new DeleteBucketCommand({ Bucket: bucketName })
+            );
+            return `Bucket "${bucketName}" deleted successfully.`;
+        } catch (error) {
+            console.error(error);
+            throw new Error(`Failed to delete bucket "${bucketName}".`);
+        }  
     }
 }

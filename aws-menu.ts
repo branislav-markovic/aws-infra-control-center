@@ -6,6 +6,7 @@ import { PromptService } from "./services/prompt-service.js";
 import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-command.js";
 import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js";
 import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.js";
+import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
 
 export function createAwsMenu(
     ec2Service: EC2Service,
@@ -49,6 +50,20 @@ export function createAwsMenu(
                 }
                 const createS3BucketCommand = new CreateS3BucketCommand(s3Service, bucketName);
                 await createS3BucketCommand.execute();
+            },
+        },
+        {
+            id: 4,
+            label: 'Delete S3 Bucket',
+            icon: '🗑️ ',
+            action: async () => {
+                const bucketName = (await promptService.ask('Enter the name of the S3 bucket to delete: ')).trim();
+                if (!bucketName) {
+                    console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
+                    return;
+                }
+                const deleteS3BucketCommand = new DeleteS3BucketCommand(s3Service, bucketName);
+                await deleteS3BucketCommand.execute();
             },
         },
     ];
