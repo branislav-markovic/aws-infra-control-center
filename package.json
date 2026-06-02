@@ -6,7 +6,8 @@
   "scripts": {
     "tsc": "npx tsc --watch",
     "dev": "node --watch index.ts",
-    "start": "npx tsx index.ts"
+    "start": "npx tsx index.ts",
+    "test": "node --import tsx --test"
   },
   "repository": {
     "type": "git",

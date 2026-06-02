@@ -12,7 +12,6 @@ export class S3Service {
             );
             return `Bucket "${bucketName}" created successfully. Location: ${data.Location}`;
         } catch (error) {
-            console.error(error);
             throw new Error(`Failed to create bucket "${bucketName}".`);
         }
     }
@@ -24,8 +23,7 @@ export class S3Service {
             );
             return `Bucket "${bucketName}" deleted successfully.`;
         } catch (error) {
-            console.error(error);
             throw new Error(`Failed to delete bucket "${bucketName}".`);
-        }  
+        }
     }
 }
