@@ -4,15 +4,14 @@ import { S3Service } from '../services/s3-service.js';
 import { CreateBucketCommand, DeleteBucketCommand, S3Client } from '@aws-sdk/client-s3';
 
 let s3Service: S3Service;
-let fakeS3Client: any;
-let receivedCommand: any;
+let fakeS3Client: S3Client;
+let receivedCommand: CreateBucketCommand | DeleteBucketCommand;
 
 beforeEach(() => {
-    receivedCommand = null;
     fakeS3Client = {
         send: async () => {}
-    };
-    s3Service = new S3Service(fakeS3Client as unknown as S3Client);
+    } as unknown as S3Client;
+    s3Service = new S3Service(fakeS3Client);
 });
 
 test('createNewBucket returns success message when bucket is created', async () => {
