@@ -1,6 +1,6 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert';
-import { EC2Service } from '../services/ec2-service.js';
+import { EC2Service } from '../../services/ec2-service.js';
 import { DescribeInstancesCommand, EC2Client, RebootInstancesCommand, RunInstancesCommand, TerminateInstancesCommand } from '@aws-sdk/client-ec2';
 
 let ec2Service: EC2Service;

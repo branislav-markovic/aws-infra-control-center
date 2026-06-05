@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert';
-import { PromptService } from '../services/prompt-service.js';
+import { PromptService } from '../../services/prompt-service.js';
 import { Interface } from "node:readline/promises";
 
 test('ask trims whitespace from user input', async () => {

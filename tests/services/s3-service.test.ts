@@ -1,6 +1,6 @@
 import { test, beforeEach  } from 'node:test';
 import assert from 'node:assert';
-import { S3Service } from '../services/s3-service.js';
+import { S3Service } from '../../services/s3-service.js';
 import { CreateBucketCommand, DeleteBucketCommand, S3Client } from '@aws-sdk/client-s3';
 
 let s3Service: S3Service;
