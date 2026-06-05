@@ -28,7 +28,6 @@ export class EC2Service {
             }
             return instanceId;
         } catch(error) {
-            console.log(error);
             throw new Error('Failed to launch EC2 instance.');
         }
     }
@@ -44,7 +43,6 @@ export class EC2Service {
                 .map((instance: Instance) => instance.InstanceId || 'Unknown ID')
                 .join('\n');
         } catch(error) {
-            console.error(error);
             throw new Error('Failed to list EC2 instances.');
         }
     }
@@ -56,7 +54,6 @@ export class EC2Service {
             }));
             return `Instance "${instanceId}" terminated successfully.`;
         } catch (error) {
-            console.error(error);
             throw new Error(`Failed to terminate instance "${instanceId}".`);
         }
     }
@@ -68,7 +65,6 @@ export class EC2Service {
             }));
             return `Instance "${instanceId}" rebooted successfully.`;
         } catch (error) {
-            console.error(error);
             throw new Error(`Failed to reboot instance "${instanceId}".`);
         }
     }
