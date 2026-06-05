@@ -9,7 +9,11 @@ export class CreateS3BucketCommand implements AWSCommand {
     ) {}
 
     async execute(): Promise<void> {
-        let result = await this.s3Service.createNewBucket(this.bucketName);
-        console.log(styleText('green', 'New S3 Bucket created successfully: ' + result));
+        try {
+            const result = await this.s3Service.createNewBucket(this.bucketName);
+            console.log(styleText('green', 'New S3 Bucket created successfully: ' + result));
+        } catch (error) {
+            console.error(`Failed to create S3 Bucket "${this.bucketName}".`, error);
+        }
     }
 }
