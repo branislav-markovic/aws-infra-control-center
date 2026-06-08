@@ -1,13 +1,13 @@
-import { test, beforeEach } from "node:test";
 import assert from "node:assert";
-import { EC2Service } from "../../services/ec2-service.js";
+import { beforeEach, test } from "node:test";
 import {
 	DescribeInstancesCommand,
-	EC2Client,
+	type EC2Client,
 	RebootInstancesCommand,
 	RunInstancesCommand,
 	TerminateInstancesCommand,
 } from "@aws-sdk/client-ec2";
+import { EC2Service } from "../../services/ec2-service.js";
 
 let ec2Service: EC2Service;
 let fakeEC2Client: EC2Client;
@@ -26,7 +26,13 @@ beforeEach(() => {
 });
 
 test("launchInstance returns instance id when instance is created", async () => {
-	fakeEC2Client.send = async (command: any) => {
+	fakeEC2Client.send = async (
+		command:
+			| RunInstancesCommand
+			| DescribeInstancesCommand
+			| TerminateInstancesCommand
+			| RebootInstancesCommand,
+	) => {
 		receivedCommand = command;
 		return {
 			Instances: [
@@ -73,7 +79,13 @@ test("launchInstance throws friendly error when AWS fails", async () => {
 });
 
 test("listInstances returns instance ids when instances exist", async () => {
-	fakeEC2Client.send = async (command: any) => {
+	fakeEC2Client.send = async (
+		command:
+			| RunInstancesCommand
+			| DescribeInstancesCommand
+			| TerminateInstancesCommand
+			| RebootInstancesCommand,
+	) => {
 		receivedCommand = command;
 		return {
 			Reservations: [
@@ -121,7 +133,13 @@ test("listInstances throws friendly error when AWS fails", async () => {
 });
 
 test("terminateInstance returns instance id when instance is terminated", async () => {
-	fakeEC2Client.send = async (command: any) => {
+	fakeEC2Client.send = async (
+		command:
+			| RunInstancesCommand
+			| DescribeInstancesCommand
+			| TerminateInstancesCommand
+			| RebootInstancesCommand,
+	) => {
 		receivedCommand = command;
 		return {};
 	};
@@ -150,7 +168,13 @@ test("terminateInstance throws friendly error when AWS fails", async () => {
 });
 
 test("rebootInstance returns instance id when instance is rebooted", async () => {
-	fakeEC2Client.send = async (command: any) => {
+	fakeEC2Client.send = async (
+		command:
+			| RunInstancesCommand
+			| DescribeInstancesCommand
+			| TerminateInstancesCommand
+			| RebootInstancesCommand,
+	) => {
 		receivedCommand = command;
 		return {};
 	};

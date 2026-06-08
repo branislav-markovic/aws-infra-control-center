@@ -1,5 +1,5 @@
-import { AWSCommand } from "../interfaces/aws-command.js";
-import { S3Service } from "../services/s3-service.js";
+import type { AWSCommand } from "../interfaces/aws-command.js";
+import type { S3Service } from "../services/s3-service.js";
 
 export class DeleteS3BucketCommand implements AWSCommand {
 	constructor(

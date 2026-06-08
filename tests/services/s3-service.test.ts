@@ -1,11 +1,11 @@
-import { test, beforeEach } from "node:test";
 import assert from "node:assert";
-import { S3Service } from "../../services/s3-service.js";
+import { beforeEach, test } from "node:test";
 import {
 	CreateBucketCommand,
 	DeleteBucketCommand,
-	S3Client,
+	type S3Client,
 } from "@aws-sdk/client-s3";
+import { S3Service } from "../../services/s3-service.js";
 
 let s3Service: S3Service;
 let fakeS3Client: S3Client;
@@ -46,7 +46,9 @@ test("createNewBucket throws friendly error when AWS fails", async () => {
 });
 
 test("deleteBucket returns success message when bucket is deleted", async () => {
-	fakeS3Client.send = async (command: any) => {
+	fakeS3Client.send = async (
+		command: CreateBucketCommand | DeleteBucketCommand,
+	) => {
 		receivedCommand = command;
 	};
 
@@ -74,7 +76,9 @@ test("deleteBucket throws friendly error when AWS fails", async () => {
 });
 
 test("createNewBucket sends correct bucket name to AWS", async () => {
-	fakeS3Client.send = async (command: any) => {
+	fakeS3Client.send = async (
+		command: CreateBucketCommand | DeleteBucketCommand,
+	) => {
 		receivedCommand = command;
 		return {
 			Location: "my-bucket",

@@ -1,7 +1,7 @@
-import { test } from "node:test";
 import assert from "node:assert";
+import { test } from "node:test";
 import { DeleteEC2InstanceCommand } from "../../aws_commands/delete-ec2-instance-command.js";
-import { EC2Service } from "../../services/ec2-service.js";
+import type { EC2Service } from "../../services/ec2-service.js";
 
 test("execute calls terminateInstance with correct instance id", async () => {
 	let receivedInstanceId: string = "";

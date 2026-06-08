@@ -1,6 +1,6 @@
 import { styleText } from "node:util";
-import { AWSCommand } from "../interfaces/aws-command.js";
-import { S3Service } from "../services/s3-service.js";
+import type { AWSCommand } from "../interfaces/aws-command.js";
+import type { S3Service } from "../services/s3-service.js";
 
 export class CreateS3BucketCommand implements AWSCommand {
 	constructor(
@@ -12,7 +12,7 @@ export class CreateS3BucketCommand implements AWSCommand {
 		try {
 			const result = await this.s3Service.createNewBucket(this.bucketName);
 			console.log(
-				styleText("green", "New S3 Bucket created successfully: " + result),
+				styleText("green", `New S3 Bucket created successfully: ${result}`),
 			);
 		} catch (error) {
 			console.error(`Failed to create S3 Bucket "${this.bucketName}".`, error);

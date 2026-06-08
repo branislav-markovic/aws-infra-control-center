@@ -1,13 +1,13 @@
-import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
+import readline from "node:readline/promises";
 import { styleText } from "node:util";
-import type { MenuItem } from "./interfaces/menu-item.ts";
-import { EC2Service } from "./services/ec2-service.js";
-import { EC2ServiceFactory } from "./factories/ec2-service.factory.js";
-import { S3Service } from "./services/s3-service.js";
-import { S3ServiceFactory } from "./factories/s3-service.factory.js";
 import { createAwsMenu } from "./aws-menu.js";
+import { EC2ServiceFactory } from "./factories/ec2-service.factory.js";
+import { S3ServiceFactory } from "./factories/s3-service.factory.js";
+import type { MenuItem } from "./interfaces/menu-item.ts";
+import type { EC2Service } from "./services/ec2-service.js";
 import { PromptService } from "./services/prompt-service.js";
+import type { S3Service } from "./services/s3-service.js";
 
 async function main(ec2Service: EC2Service, s3Service: S3Service) {
 	const rl = readline.createInterface({ input, output });
@@ -24,7 +24,7 @@ async function main(ec2Service: EC2Service, s3Service: S3Service) {
 		console.log(styleText("yellow", "AWS CLI Menu:"));
 
 		menu.forEach((menuItem) => {
-			let item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
+			const item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
 			console.log(styleText("cyan", item));
 		});
 

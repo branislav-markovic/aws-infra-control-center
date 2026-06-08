@@ -1,14 +1,14 @@
-import type { MenuItem } from "./interfaces/menu-item.js";
-import { EC2Service } from "./services/ec2-service.js";
-import { S3Service } from "./services/s3-service.js";
-import { PromptService } from "./services/prompt-service.js";
-import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-command.js";
-import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js";
 import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.js";
-import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
 import { DeleteEC2InstanceCommand } from "./aws_commands/delete-ec2-instance-command.js";
+import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
+import { LaunchEC2Instance } from "./aws_commands/launch-ec2-instance-command.js";
+import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-command.js";
 import { RebootEC2InstanceCommand } from "./aws_commands/reboot-ec2-instance-command.js";
 import { InstanceIdSchema, S3BucketNameSchema } from "./config/aws.schemas.js";
+import type { MenuItem } from "./interfaces/menu-item.js";
+import type { EC2Service } from "./services/ec2-service.js";
+import type { PromptService } from "./services/prompt-service.js";
+import type { S3Service } from "./services/s3-service.js";
 
 export function createAwsMenu(
 	ec2Service: EC2Service,

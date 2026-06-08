@@ -1,6 +1,6 @@
-import { Interface } from "node:readline/promises";
+import type { Interface } from "node:readline/promises";
 import { styleText } from "node:util";
-import { z } from "zod";
+import type { z } from "zod";
 
 export class PromptService {
 	constructor(private rl: Interface) {}

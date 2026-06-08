@@ -1,6 +1,6 @@
 import { styleText } from "node:util";
-import { AWSCommand } from "../interfaces/aws-command.js";
-import { EC2Service } from "../services/ec2-service.js";
+import type { AWSCommand } from "../interfaces/aws-command.js";
+import type { EC2Service } from "../services/ec2-service.js";
 
 export class ListEC2InstancesCommand implements AWSCommand {
 	constructor(private ec2Service: EC2Service) {}

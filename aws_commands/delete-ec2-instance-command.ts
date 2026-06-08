@@ -1,5 +1,5 @@
-import { AWSCommand } from "../interfaces/aws-command.js";
-import { EC2Service } from "../services/ec2-service.js";
+import type { AWSCommand } from "../interfaces/aws-command.js";
+import type { EC2Service } from "../services/ec2-service.js";
 
 export class DeleteEC2InstanceCommand implements AWSCommand {
 	constructor(

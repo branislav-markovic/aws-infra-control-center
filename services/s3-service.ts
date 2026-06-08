@@ -1,7 +1,7 @@
 import {
 	CreateBucketCommand,
 	DeleteBucketCommand,
-	S3Client,
+	type S3Client,
 } from "@aws-sdk/client-s3";
 
 export class S3Service {
@@ -13,7 +13,7 @@ export class S3Service {
 				new CreateBucketCommand({ Bucket: bucketName }),
 			);
 			return `Bucket "${bucketName}" created successfully. Location: ${data.Location}`;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error(`Failed to create bucket "${bucketName}".`);
 		}
 	}
@@ -22,7 +22,7 @@ export class S3Service {
 		try {
 			await this.client.send(new DeleteBucketCommand({ Bucket: bucketName }));
 			return `Bucket "${bucketName}" deleted successfully.`;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error(`Failed to delete bucket "${bucketName}".`);
 		}
 	}

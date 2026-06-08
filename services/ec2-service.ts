@@ -1,12 +1,12 @@
 import {
-	EC2Client,
-	RunInstancesCommand,
-	DescribeInstancesCommand,
-	TerminateInstancesCommand,
 	_InstanceType,
-	Reservation,
-	Instance,
+	DescribeInstancesCommand,
+	type EC2Client,
+	type Instance,
 	RebootInstancesCommand,
+	type Reservation,
+	RunInstancesCommand,
+	TerminateInstancesCommand,
 } from "@aws-sdk/client-ec2";
 import { awsConfig } from "../config/aws.config.js";
 
@@ -29,7 +29,7 @@ export class EC2Service {
 				);
 			}
 			return instanceId;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("Failed to launch EC2 instance.");
 		}
 	}
@@ -45,7 +45,7 @@ export class EC2Service {
 			)
 				.map((instance: Instance) => instance.InstanceId || "Unknown ID")
 				.join("\n");
-		} catch (error) {
+		} catch (_error) {
 			throw new Error("Failed to list EC2 instances.");
 		}
 	}
@@ -58,7 +58,7 @@ export class EC2Service {
 				}),
 			);
 			return `Instance "${instanceId}" terminated successfully.`;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error(`Failed to terminate instance "${instanceId}".`);
 		}
 	}
@@ -71,7 +71,7 @@ export class EC2Service {
 				}),
 			);
 			return `Instance "${instanceId}" rebooted successfully.`;
-		} catch (error) {
+		} catch (_error) {
 			throw new Error(`Failed to reboot instance "${instanceId}".`);
 		}
 	}

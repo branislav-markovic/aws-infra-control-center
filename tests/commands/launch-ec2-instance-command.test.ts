@@ -1,7 +1,7 @@
-import { test } from "node:test";
 import assert from "node:assert";
+import { test } from "node:test";
 import { LaunchEC2Instance } from "../../aws_commands/launch-ec2-instance-command.js";
-import { EC2Service } from "../../services/ec2-service.js";
+import type { EC2Service } from "../../services/ec2-service.js";
 
 test("execute calls launchInstance", async () => {
 	let wasCalled = false;

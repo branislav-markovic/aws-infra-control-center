@@ -1,7 +1,7 @@
-import { test } from "node:test";
 import assert from "node:assert";
+import { test } from "node:test";
 import { DeleteS3BucketCommand } from "../../aws_commands/delete-s3-bucket-command.js";
-import { S3Service } from "../../services/s3-service.js";
+import type { S3Service } from "../../services/s3-service.js";
 
 test("execute calls deleteBucket with correct bucket name", async () => {
 	let receivedBucketName = "";
