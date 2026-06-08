@@ -11,88 +11,100 @@ import { RebootEC2InstanceCommand } from "./aws_commands/reboot-ec2-instance-com
 import { InstanceIdSchema, S3BucketNameSchema } from "./config/aws.schemas.js";
 
 export function createAwsMenu(
-    ec2Service: EC2Service,
-    s3Service:S3Service,
-    promptService: PromptService
+	ec2Service: EC2Service,
+	s3Service: S3Service,
+	promptService: PromptService,
 ): MenuItem[] {
-    const menu: MenuItem[] = [
-        {
-            id: 0,
-            label: 'Exit',
-            icon: '❌',
-            action: async () => {},
-        },
-        {
-            id: 1,
-            label: 'Launch new EC2 Instance',
-            icon: '🚀',
-            action: async () => {
-                const launchEC2InstanceCommand = new LaunchEC2Instance(ec2Service);
-                await launchEC2InstanceCommand.execute();
-            },
-        },
-        {
-            id: 2,
-            label: 'List all EC2 Instances',
-            icon: '📋',
-            action: async () => {
-                const listEC2InstancesCommand = new ListEC2InstancesCommand(ec2Service);
-                await listEC2InstancesCommand.execute();
-            },
-        },
-        {
-            id: 3,
-            label: 'Create new S3 Bucket',
-            icon: '📦',
-            action: async () => {
-                const bucketName = (
-                    await promptService
-                        .ask('Enter the name of the new S3 bucket: ', S3BucketNameSchema)
-                );
-                const createS3BucketCommand = new CreateS3BucketCommand(s3Service, bucketName);
-                await createS3BucketCommand.execute();
-            },
-        },
-        {
-            id: 4,
-            label: 'Delete S3 Bucket',
-            icon: '🗑️ ',
-            action: async () => {
-                const bucketName = (
-                    await promptService
-                        .ask('Enter the name of the S3 bucket to delete: ', S3BucketNameSchema)
-                );
-                const deleteS3BucketCommand = new DeleteS3BucketCommand(s3Service, bucketName);
-                await deleteS3BucketCommand.execute();
-            },
-        },
-        {
-            id: 5,
-            label: 'Delete EC2 Instance',
-            icon: '🗑️ ',
-            action: async () => {
-                const instanceId = (
-                    await promptService
-                        .ask('Enter the ID of the EC2 instance to delete: ', InstanceIdSchema)
-                );
-                const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(ec2Service, instanceId);
-                await deleteEC2InstanceCommand.execute();
-            },
-        },
-        {
-            id: 6,
-            label: 'Reboot EC2 Instance',
-            icon: '🔄',
-            action: async () => {
-                const instanceId = (
-                    await promptService
-                        .ask('Enter the ID of the EC2 instance to reboot: ', InstanceIdSchema)
-                );
-                const rebootEC2InstanceCommand = new RebootEC2InstanceCommand(ec2Service, instanceId);
-                await rebootEC2InstanceCommand.execute();
-            },
-        },
-    ];
+	const menu: MenuItem[] = [
+		{
+			id: 0,
+			label: "Exit",
+			icon: "❌",
+			action: async () => {},
+		},
+		{
+			id: 1,
+			label: "Launch new EC2 Instance",
+			icon: "🚀",
+			action: async () => {
+				const launchEC2InstanceCommand = new LaunchEC2Instance(ec2Service);
+				await launchEC2InstanceCommand.execute();
+			},
+		},
+		{
+			id: 2,
+			label: "List all EC2 Instances",
+			icon: "📋",
+			action: async () => {
+				const listEC2InstancesCommand = new ListEC2InstancesCommand(ec2Service);
+				await listEC2InstancesCommand.execute();
+			},
+		},
+		{
+			id: 3,
+			label: "Create new S3 Bucket",
+			icon: "📦",
+			action: async () => {
+				const bucketName = await promptService.ask(
+					"Enter the name of the new S3 bucket: ",
+					S3BucketNameSchema,
+				);
+				const createS3BucketCommand = new CreateS3BucketCommand(
+					s3Service,
+					bucketName,
+				);
+				await createS3BucketCommand.execute();
+			},
+		},
+		{
+			id: 4,
+			label: "Delete S3 Bucket",
+			icon: "🗑️ ",
+			action: async () => {
+				const bucketName = await promptService.ask(
+					"Enter the name of the S3 bucket to delete: ",
+					S3BucketNameSchema,
+				);
+				const deleteS3BucketCommand = new DeleteS3BucketCommand(
+					s3Service,
+					bucketName,
+				);
+				await deleteS3BucketCommand.execute();
+			},
+		},
+		{
+			id: 5,
+			label: "Delete EC2 Instance",
+			icon: "🗑️ ",
+			action: async () => {
+				const instanceId = await promptService.ask(
+					"Enter the ID of the EC2 instance to delete: ",
+					InstanceIdSchema,
+				);
+				const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(
+					ec2Service,
+					instanceId,
+				);
+				await deleteEC2InstanceCommand.execute();
+			},
+		},
+		{
+			id: 6,
+			label: "Reboot EC2 Instance",
+			icon: "🔄",
+			action: async () => {
+				const instanceId = await promptService.ask(
+					"Enter the ID of the EC2 instance to reboot: ",
+					InstanceIdSchema,
+				);
+				const rebootEC2InstanceCommand = new RebootEC2InstanceCommand(
+					ec2Service,
+					instanceId,
+				);
+				await rebootEC2InstanceCommand.execute();
+			},
+		},
+	];
 
-    return menu;
+	return menu;
 }

@@ -1,34 +1,36 @@
 {
-  "name": "aws-infra-control-center",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "tsc": "npx tsc --watch",
-    "dev": "node --watch index.ts",
-    "start": "npx tsx index.ts",
-    "test": "node --import tsx --test",
-    "coverage": "node --import tsx --test --experimental-test-coverage"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/branislav-markovic/aws-infra-control-center.git"
-  },
-  "keywords": [],
-  "author": "Branislav",
-  "license": "ISC",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/branislav-markovic/aws-infra-control-center/issues"
-  },
-  "homepage": "https://github.com/branislav-markovic/aws-infra-control-center#readme",
-  "devDependencies": {
-    "@types/node": "^25.6.0",
-    "tsx": "^4.22.3"
-  },
-  "dependencies": {
-    "@aws-sdk/client-ec2": "^3.1049.0",
-    "@aws-sdk/client-s3": "^3.1053.0",
-    "zod": "^4.4.3"
-  }
+	"name": "aws-infra-control-center",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"tsc": "npx tsc --watch",
+		"dev": "node --watch index.ts",
+		"start": "npx tsx index.ts",
+		"test": "node --import tsx --test",
+		"coverage": "node --import tsx --test --experimental-test-coverage",
+		"format": "npx @biomejs/biome format . --write"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/branislav-markovic/aws-infra-control-center.git"
+	},
+	"keywords": [],
+	"author": "Branislav",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/branislav-markovic/aws-infra-control-center/issues"
+	},
+	"homepage": "https://github.com/branislav-markovic/aws-infra-control-center#readme",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.16",
+		"@types/node": "^25.6.0",
+		"tsx": "^4.22.3"
+	},
+	"dependencies": {
+		"@aws-sdk/client-ec2": "^3.1049.0",
+		"@aws-sdk/client-s3": "^3.1053.0",
+		"zod": "^4.4.3"
+	}
 }

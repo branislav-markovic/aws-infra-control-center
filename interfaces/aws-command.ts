@@ -1,6 +1,6 @@
 export interface AWSCommand {
-    label?: string;
-    description?: string;
+	label?: string;
+	description?: string;
 
-    execute(): Promise<void>;
+	execute(): Promise<void>;
 }
