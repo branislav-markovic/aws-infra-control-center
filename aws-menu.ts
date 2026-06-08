@@ -1,5 +1,4 @@
 import type { MenuItem } from "./interfaces/menu-item.js";
-import { styleText } from 'node:util';
 import { EC2Service } from "./services/ec2-service.js";
 import { S3Service } from "./services/s3-service.js";
 import { PromptService } from "./services/prompt-service.js";
@@ -9,6 +8,7 @@ import { CreateS3BucketCommand } from "./aws_commands/create-s3-bucket-command.j
 import { DeleteS3BucketCommand } from "./aws_commands/delete-s3-bucket-command.js";
 import { DeleteEC2InstanceCommand } from "./aws_commands/delete-ec2-instance-command.js";
 import { RebootEC2InstanceCommand } from "./aws_commands/reboot-ec2-instance-command.js";
+import { InstanceIdSchema, S3BucketNameSchema } from "./config/aws.schemas.js";
 
 export function createAwsMenu(
     ec2Service: EC2Service,
@@ -45,11 +45,10 @@ export function createAwsMenu(
             label: 'Create new S3 Bucket',
             icon: '📦',
             action: async () => {
-                const bucketName = (await promptService.ask('Enter the name of the new S3 bucket: ')).trim();
-                if (!bucketName) {
-                    console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
-                    return;
-                }
+                const bucketName = (
+                    await promptService
+                        .ask('Enter the name of the new S3 bucket: ', S3BucketNameSchema)
+                );
                 const createS3BucketCommand = new CreateS3BucketCommand(s3Service, bucketName);
                 await createS3BucketCommand.execute();
             },
@@ -59,11 +58,10 @@ export function createAwsMenu(
             label: 'Delete S3 Bucket',
             icon: '🗑️ ',
             action: async () => {
-                const bucketName = (await promptService.ask('Enter the name of the S3 bucket to delete: ')).trim();
-                if (!bucketName) {
-                    console.log(styleText('red', 'Bucket name cannot be empty. Action cancelled.'));
-                    return;
-                }
+                const bucketName = (
+                    await promptService
+                        .ask('Enter the name of the S3 bucket to delete: ', S3BucketNameSchema)
+                );
                 const deleteS3BucketCommand = new DeleteS3BucketCommand(s3Service, bucketName);
                 await deleteS3BucketCommand.execute();
             },
@@ -73,11 +71,10 @@ export function createAwsMenu(
             label: 'Delete EC2 Instance',
             icon: '🗑️ ',
             action: async () => {
-                const instanceId = (await promptService.ask('Enter the ID of the EC2 instance to delete: ')).trim();
-                if (!instanceId) {
-                    console.log(styleText('red', 'Instance ID cannot be empty. Action cancelled.'));
-                    return;
-                }
+                const instanceId = (
+                    await promptService
+                        .ask('Enter the ID of the EC2 instance to delete: ', InstanceIdSchema)
+                );
                 const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(ec2Service, instanceId);
                 await deleteEC2InstanceCommand.execute();
             },
@@ -87,11 +84,10 @@ export function createAwsMenu(
             label: 'Reboot EC2 Instance',
             icon: '🔄',
             action: async () => {
-                const instanceId = (await promptService.ask('Enter the ID of the EC2 instance to reboot: ')).trim();
-                if (!instanceId) {
-                    console.log(styleText('red', 'Instance ID cannot be empty. Action cancelled.'));
-                    return;
-                }
+                const instanceId = (
+                    await promptService
+                        .ask('Enter the ID of the EC2 instance to reboot: ', InstanceIdSchema)
+                );
                 const rebootEC2InstanceCommand = new RebootEC2InstanceCommand(ec2Service, instanceId);
                 await rebootEC2InstanceCommand.execute();
             },
