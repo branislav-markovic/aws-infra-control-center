@@ -9,7 +9,9 @@
 		"start": "npx tsx index.ts",
 		"test": "node --import tsx --test",
 		"coverage": "node --import tsx --test --experimental-test-coverage",
-		"format": "npx @biomejs/biome format . --write"
+		"format": "npx @biomejs/biome format . --write",
+		"lint-writer": "npx @biomejs/biome check --write .",
+		"prepare": "husky"
 	},
 	"repository": {
 		"type": "git",
