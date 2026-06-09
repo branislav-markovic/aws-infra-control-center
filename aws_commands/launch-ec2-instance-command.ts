@@ -7,12 +7,17 @@ export class LaunchEC2Instance implements AWSCommand {
 
 	async execute(): Promise<void> {
 		try {
-			const result = await this.ec2Service.launchInstance();
+			const instanceId = await this.ec2Service.launchInstance();
 			console.log(
-				styleText("green", `EC2 Instance launched with ID: ${result}`),
+				styleText(
+					"green",
+					`EC2 instance launched successfully. Instance ID: ${instanceId}`,
+				),
 			);
-		} catch (error) {
-			console.error("Failed to launch EC2 instance.", error);
+		} catch {
+			console.error(
+				"Failed to launch EC2 instance. Please check your AWS configuration and permissions.",
+			);
 		}
 	}
 }

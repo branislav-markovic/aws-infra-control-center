@@ -9,8 +9,10 @@ export class ListEC2InstancesCommand implements AWSCommand {
 		try {
 			const result = await this.ec2Service.listInstances();
 			console.log(styleText("green", `EC2 Instances:\n${result}`));
-		} catch (error) {
-			console.error("Failed to list EC2 instances.", error);
+		} catch {
+			console.error(
+				"Failed to list EC2 instances. Please check your AWS configuration and permissions.",
+			);
 		}
 	}
 }

@@ -9,14 +9,11 @@ export class DeleteEC2InstanceCommand implements AWSCommand {
 
 	async execute(): Promise<void> {
 		try {
-			const result = await this.ec2Service.terminateInstance(this.instanceId);
-			console.log(
-				`EC2 Instance "${this.instanceId}" terminated successfully. Result: ${result}`,
-			);
-		} catch (error) {
+			await this.ec2Service.terminateInstance(this.instanceId);
+			console.log(`EC2 instance "${this.instanceId}" terminated successfully.`);
+		} catch {
 			console.error(
-				`Failed to terminate EC2 Instance "${this.instanceId}".`,
-				error,
+				`Failed to terminate EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`,
 			);
 		}
 	}

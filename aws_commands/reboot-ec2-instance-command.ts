@@ -10,9 +10,11 @@ export class RebootEC2InstanceCommand implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			await this.ec2Service.rebootInstance(this.instanceId);
-			console.log(`Instance "${this.instanceId}" rebooted successfully.`);
-		} catch (error) {
-			console.error(`Failed to reboot instance "${this.instanceId}".`, error);
+			console.log(`EC2 instance "${this.instanceId}" rebooted successfully.`);
+		} catch {
+			console.error(
+				`Failed to reboot EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`,
+			);
 		}
 	}
 }
