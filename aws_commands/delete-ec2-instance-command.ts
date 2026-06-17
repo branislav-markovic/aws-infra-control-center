@@ -1,5 +1,6 @@
 import type { AWSCommand } from "../interfaces/aws-command.js";
 import type { EC2Service } from "../services/ec2-service.js";
+import logger from "../config/logger.js";
 
 export class DeleteEC2InstanceCommand implements AWSCommand {
 	constructor(
@@ -12,9 +13,9 @@ export class DeleteEC2InstanceCommand implements AWSCommand {
 			await this.ec2Service.terminateInstance(this.instanceId);
 			console.log(`EC2 instance "${this.instanceId}" terminated successfully.`);
 		} catch {
-			console.error(
+			logger.error(
 				`Failed to terminate EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`,
-			);
+			)
 		}
 	}
 }

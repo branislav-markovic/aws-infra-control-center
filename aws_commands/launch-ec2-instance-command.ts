@@ -1,6 +1,7 @@
 import { styleText } from "node:util";
 import type { AWSCommand } from "../interfaces/aws-command.js";
 import type { EC2Service } from "../services/ec2-service.js";
+import logger from "../config/logger.js";
 
 export class LaunchEC2Instance implements AWSCommand {
 	constructor(private ec2Service: EC2Service) {}
@@ -15,7 +16,7 @@ export class LaunchEC2Instance implements AWSCommand {
 				),
 			);
 		} catch {
-			console.error(
+			logger.error(
 				"Failed to launch EC2 instance. Please check your AWS configuration and permissions.",
 			);
 		}

@@ -1,6 +1,7 @@
 import { styleText } from "node:util";
 import type { AWSCommand } from "../interfaces/aws-command.js";
 import type { S3Service } from "../services/s3-service.js";
+import logger from "../config/logger.js";
 
 export class CreateS3BucketCommand implements AWSCommand {
 	constructor(
@@ -18,9 +19,9 @@ export class CreateS3BucketCommand implements AWSCommand {
 				),
 			);
 		} catch {
-			console.error(
+			logger.error(
 				`Failed to create S3 bucket "${this.bucketName}". Please check the bucket name and your AWS permissions.`,
-			);
+			)
 		}
 	}
 }
