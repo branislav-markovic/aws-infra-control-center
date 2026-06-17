@@ -1,3 +1,4 @@
 node_modules/
 backlog.txt
 logs/
+.env

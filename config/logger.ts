@@ -40,7 +40,7 @@ const transports = [
 	}),
 ];
 const logger = winston.createLogger({
-	level: "debug",
+	level: process.env.LOG_LEVEL ?? "info",
 	levels,
 	format,
 	transports,

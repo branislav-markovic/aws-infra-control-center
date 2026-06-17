@@ -1,5 +1,5 @@
 import {
-	_InstanceType,
+	type _InstanceType,
 	DescribeInstancesCommand,
 	type EC2Client,
 	type Instance,
@@ -16,7 +16,7 @@ export class EC2Service {
 	async launchInstance(): Promise<string> {
 		const params = {
 			ImageId: awsConfig.amiId,
-			InstanceType: _InstanceType.t3_micro,
+			InstanceType: awsConfig.instanceType as _InstanceType,
 			MinCount: 1,
 			MaxCount: 1,
 		};
