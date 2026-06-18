@@ -18,9 +18,10 @@ export class CreateS3BucketCommand implements AWSCommand {
 					`S3 bucket "${this.bucketName}" created successfully.`,
 				),
 			);
-		} catch {
+		} catch (error) {
 			logger.error(
 				`Failed to create S3 bucket "${this.bucketName}". Please check the bucket name and your AWS permissions.`,
+				error,
 			);
 		}
 	}

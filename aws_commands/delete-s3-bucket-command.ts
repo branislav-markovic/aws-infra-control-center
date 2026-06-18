@@ -12,9 +12,10 @@ export class DeleteS3BucketCommand implements AWSCommand {
 		try {
 			await this.s3Service.deleteBucket(this.bucketName);
 			console.log(`S3 bucket "${this.bucketName}" deleted successfully.`);
-		} catch {
+		} catch (error) {
 			logger.error(
 				`Failed to delete S3 bucket "${this.bucketName}". Please check the bucket name and your AWS permissions.`,
+				error,
 			);
 		}
 	}

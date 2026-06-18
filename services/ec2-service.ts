@@ -29,8 +29,8 @@ export class EC2Service {
 				);
 			}
 			return instanceId;
-		} catch (_error) {
-			throw new Error("Failed to launch EC2 instance.");
+		} catch (error) {
+			throw new Error("Failed to launch EC2 instance.", { cause: error });
 		}
 	}
 
@@ -45,8 +45,8 @@ export class EC2Service {
 			)
 				.map((instance: Instance) => instance.InstanceId || "Unknown ID")
 				.join("\n");
-		} catch (_error) {
-			throw new Error("Failed to list EC2 instances.");
+		} catch (error) {
+			throw new Error("Failed to list EC2 instances.", { cause: error });
 		}
 	}
 
@@ -58,8 +58,10 @@ export class EC2Service {
 				}),
 			);
 			return `Instance "${instanceId}" terminated successfully.`;
-		} catch (_error) {
-			throw new Error(`Failed to terminate instance "${instanceId}".`);
+		} catch (error) {
+			throw new Error(`Failed to terminate instance "${instanceId}".`, {
+				cause: error,
+			});
 		}
 	}
 
@@ -71,8 +73,10 @@ export class EC2Service {
 				}),
 			);
 			return `Instance "${instanceId}" rebooted successfully.`;
-		} catch (_error) {
-			throw new Error(`Failed to reboot instance "${instanceId}".`);
+		} catch (error) {
+			throw new Error(`Failed to reboot instance "${instanceId}".`, {
+				cause: error,
+			});
 		}
 	}
 }

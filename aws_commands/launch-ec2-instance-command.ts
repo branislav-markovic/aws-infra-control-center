@@ -15,9 +15,10 @@ export class LaunchEC2Instance implements AWSCommand {
 					`EC2 instance launched successfully. Instance ID: ${instanceId}`,
 				),
 			);
-		} catch {
+		} catch (error) {
 			logger.error(
 				"Failed to launch EC2 instance. Please check your AWS configuration and permissions.",
+				error,
 			);
 		}
 	}

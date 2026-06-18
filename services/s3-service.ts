@@ -13,8 +13,10 @@ export class S3Service {
 				new CreateBucketCommand({ Bucket: bucketName }),
 			);
 			return `Bucket "${bucketName}" created successfully. Location: ${data.Location}`;
-		} catch (_error) {
-			throw new Error(`Failed to create bucket "${bucketName}".`);
+		} catch (error) {
+			throw new Error(`Failed to create bucket "${bucketName}".`, {
+				cause: error,
+			});
 		}
 	}
 
@@ -22,8 +24,10 @@ export class S3Service {
 		try {
 			await this.client.send(new DeleteBucketCommand({ Bucket: bucketName }));
 			return `Bucket "${bucketName}" deleted successfully.`;
-		} catch (_error) {
-			throw new Error(`Failed to delete bucket "${bucketName}".`);
+		} catch (error) {
+			throw new Error(`Failed to delete bucket "${bucketName}".`, {
+				cause: error,
+			});
 		}
 	}
 }

@@ -12,9 +12,10 @@ export class DeleteEC2InstanceCommand implements AWSCommand {
 		try {
 			await this.ec2Service.terminateInstance(this.instanceId);
 			console.log(`EC2 instance "${this.instanceId}" terminated successfully.`);
-		} catch {
+		} catch (error) {
 			logger.error(
 				`Failed to terminate EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`,
+				error,
 			);
 		}
 	}
