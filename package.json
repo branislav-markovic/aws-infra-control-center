@@ -11,7 +11,8 @@
 		"coverage": "node --import tsx --test --experimental-test-coverage",
 		"format": "npx @biomejs/biome format . --write",
 		"lint-writer": "npx @biomejs/biome check --write .",
-		"prepare": "husky"
+		"prepare": "husky",
+		"email-worker": "npx tsx --env-file=.env ./workers/email-sender.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -28,11 +29,15 @@
 	"devDependencies": {
 		"@biomejs/biome": "2.4.16",
 		"@types/node": "^25.6.0",
+		"@types/nodemailer": "^8.0.1",
 		"tsx": "^4.22.3"
 	},
 	"dependencies": {
 		"@aws-sdk/client-ec2": "^3.1049.0",
 		"@aws-sdk/client-s3": "^3.1053.0",
+		"bullmq": "^5.79.0",
+		"ioredis": "^5.11.1",
+		"nodemailer": "^9.0.1",
 		"winston": "^3.19.0",
 		"zod": "^4.4.3"
 	}
