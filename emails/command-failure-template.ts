@@ -11,7 +11,8 @@ const escapeHtml = (s?: string) => {
 
 export const renderCommandFailureEmail = (data: {
 	message: string;
-	instanceId: string;
+	command: string;
+	resourceId?: string;
 	errors?: string;
 }) => {
 	return `
@@ -27,8 +28,9 @@ export const renderCommandFailureEmail = (data: {
     </head>
     <body>
         <h2>AWS Command Failure</h2>
+        <p><strong>Command:</strong> ${escapeHtml(data.command)}</p>
         <p>${escapeHtml(data.message)}</p>
-        <p><strong>Instance ID:</strong> ${escapeHtml(data.instanceId)}</p>
+        ${data.resourceId ? `<p><strong>Resource ID:</strong> ${escapeHtml(data.resourceId)}</p>` : ""}
         ${data.errors ? `<h3>Errors</h3><pre>${escapeHtml(data.errors)}</pre>` : ""}
     </body>
     </html>

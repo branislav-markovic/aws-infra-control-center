@@ -2,7 +2,8 @@ import { z } from "zod";
 
 export const EmailJobSchema = z.object({
 	message: z.string(),
-	instanceId: z.string(),
+	command: z.string(),
+	resourceId: z.string().optional(),
 	error: z.unknown().optional(),
 });
 

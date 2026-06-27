@@ -45,7 +45,8 @@ const worker = new Worker(
 			mailOptions.text = jobData.message;
 			mailOptions.html = renderCommandFailureEmail({
 				message: jobData.message,
-				instanceId: jobData.instanceId,
+				command: jobData.command,
+				resourceId: jobData.resourceId,
 				errors: serializeError(jobData.error),
 			});
 			await transporter.sendMail(mailOptions);
