@@ -1,6 +1,6 @@
 import type { ConnectionOptions } from "bullmq";
-import { Redis } from "ioredis";
+import { RedisFactory } from "../factories/redis.factory.js";
 
-const redis = new Redis({ maxRetriesPerRequest: null });
+const redis = RedisFactory.create();
 
-export default redis as ConnectionOptions;
+export default redis;
