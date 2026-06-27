@@ -26,3 +26,49 @@ test("execute calls rebootInstance with correct instance id", async () => {
 
 	assert.strictEqual(receivedInstanceId, "i-456");
 });
+
+test("execute enqueues failure job when reboot fails", async () => {
+	let receivedJobName = "";
+	let receivedJobData: unknown = null;
+
+	const fakeEmailQueue = {
+		add: async (name: string, data: unknown) => {
+			receivedJobName = name;
+			receivedJobData = data;
+			return Promise.resolve();
+		},
+	} as unknown as Queue;
+
+	const fakeEC2Service = {
+		rebootInstance: async () => {
+			throw new Error("boom");
+		},
+	} as unknown as EC2Service;
+
+	const command = new RebootEC2InstanceCommand(
+		fakeEC2Service,
+		fakeEmailQueue,
+		"i-456",
+	);
+
+	await command.execute();
+
+	assert.strictEqual(receivedJobName, "rebootFailed");
+
+	const payload = receivedJobData as {
+		message: string;
+		command: string;
+		resourceId: string;
+		error: { name: string; message: string; stack: string };
+	};
+
+	assert.strictEqual(
+		payload.message,
+		'Failed to reboot EC2 instance "i-456". Please check the instance ID and your AWS permissions.',
+	);
+	assert.strictEqual(payload.command, "RebootEC2InstanceCommand");
+	assert.strictEqual(payload.resourceId, "i-456");
+	assert.strictEqual(payload.error.name, "Error");
+	assert.strictEqual(payload.error.message, "boom");
+	assert.ok(typeof payload.error.stack === "string");
+});

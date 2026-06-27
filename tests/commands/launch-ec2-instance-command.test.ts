@@ -21,3 +21,41 @@ test("execute calls launchInstance", async () => {
 
 	assert.strictEqual(wasCalled, true);
 });
+
+test("execute enqueues failure job when launch fails", async () => {
+	let receivedJobName = "";
+	let receivedJobData: unknown = null;
+	const fakeEmailQueue = {
+		add: async (name: string, data: unknown) => {
+			receivedJobName = name;
+			receivedJobData = data;
+			return Promise.resolve();
+		},
+	} as unknown as Queue;
+
+	const fakeEC2Service = {
+		launchInstance: async () => {
+			throw new Error("boom");
+		},
+	} as unknown as EC2Service;
+
+	const command = new LaunchEC2Instance(fakeEC2Service, fakeEmailQueue);
+	await command.execute();
+
+	assert.strictEqual(receivedJobName, "launchEc2Failed");
+
+	const payload = receivedJobData as {
+		message: string;
+		command: string;
+		error: { name: string; message: string; stack: string };
+	};
+
+	assert.strictEqual(
+		payload.message,
+		"Failed to launch EC2 instance. Please check your AWS configuration and permissions.",
+	);
+	assert.strictEqual(payload.command, "LaunchEC2Instance");
+	assert.strictEqual(payload.error.name, "Error");
+	assert.strictEqual(payload.error.message, "boom");
+	assert.ok(typeof payload.error.stack === "string");
+});

@@ -23,3 +23,47 @@ test("execute calls terminateInstance with correct instance id", async () => {
 	await command.execute();
 	assert.strictEqual(receivedInstanceId, "i-123");
 });
+
+test("execute enqueues failure job when delete EC2 instance fails", async () => {
+	let receivedJobName = "";
+	let receivedJobData: unknown = null;
+	const fakeEmailQueue = {
+		add: async (name: string, data: unknown) => {
+			receivedJobName = name;
+			receivedJobData = data;
+			return Promise.resolve();
+		},
+	} as unknown as Queue;
+
+	const fakeEC2Service = {
+		terminateInstance: async () => {
+			throw new Error("boom");
+		},
+	} as unknown as EC2Service;
+
+	const command = new DeleteEC2InstanceCommand(
+		fakeEC2Service,
+		fakeEmailQueue,
+		"i-123",
+	);
+	await command.execute();
+
+	assert.strictEqual(receivedJobName, "terminateEc2Failed");
+
+	const payload = receivedJobData as {
+		message: string;
+		command: string;
+		resourceId: string;
+		error: { name: string; message: string; stack: string };
+	};
+
+	assert.strictEqual(
+		payload.message,
+		'Failed to terminate EC2 instance "i-123". Please check the instance ID and your AWS permissions.',
+	);
+	assert.strictEqual(payload.command, "DeleteEC2InstanceCommand");
+	assert.strictEqual(payload.resourceId, "i-123");
+	assert.strictEqual(payload.error.name, "Error");
+	assert.strictEqual(payload.error.message, "boom");
+	assert.ok(typeof payload.error.stack === "string");
+});
