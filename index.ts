@@ -47,6 +47,15 @@ async function main(ec2Service: EC2Service, s3Service: S3Service) {
 			}
 			await rl.question("Press Enter to continue...");
 		}
+	} catch (error) {
+		if (
+			error instanceof Error &&
+			(error as Error & { code?: string }).code === "ABORT_ERR"
+		) {
+			console.log(styleText("yellow", "Exiting..."));
+		} else {
+			throw error;
+		}
 	} finally {
 		rl.close();
 		await emailQueue.close();
