@@ -6,6 +6,7 @@ import { ListEC2InstancesCommand } from "./aws_commands/list-ec2-instances-comma
 import { RebootEC2InstanceCommand } from "./aws_commands/reboot-ec2-instance-command.js";
 import { InstanceIdSchema, S3BucketNameSchema } from "./config/aws.schemas.js";
 import type { MenuItem } from "./interfaces/menu-item.js";
+import emailQueue from "./queues/email-queue.js";
 import type { EC2Service } from "./services/ec2-service.js";
 import type { PromptService } from "./services/prompt-service.js";
 import type { S3Service } from "./services/s3-service.js";
@@ -27,7 +28,10 @@ export function createAwsMenu(
 			label: "Launch new EC2 Instance",
 			icon: "🚀",
 			action: async () => {
-				const launchEC2InstanceCommand = new LaunchEC2Instance(ec2Service);
+				const launchEC2InstanceCommand = new LaunchEC2Instance(
+					ec2Service,
+					emailQueue,
+				);
 				await launchEC2InstanceCommand.execute();
 			},
 		},
@@ -36,7 +40,10 @@ export function createAwsMenu(
 			label: "List all EC2 Instances",
 			icon: "📋",
 			action: async () => {
-				const listEC2InstancesCommand = new ListEC2InstancesCommand(ec2Service);
+				const listEC2InstancesCommand = new ListEC2InstancesCommand(
+					ec2Service,
+					emailQueue,
+				);
 				await listEC2InstancesCommand.execute();
 			},
 		},
@@ -51,6 +58,7 @@ export function createAwsMenu(
 				);
 				const createS3BucketCommand = new CreateS3BucketCommand(
 					s3Service,
+					emailQueue,
 					bucketName,
 				);
 				await createS3BucketCommand.execute();
@@ -67,6 +75,7 @@ export function createAwsMenu(
 				);
 				const deleteS3BucketCommand = new DeleteS3BucketCommand(
 					s3Service,
+					emailQueue,
 					bucketName,
 				);
 				await deleteS3BucketCommand.execute();
@@ -83,6 +92,7 @@ export function createAwsMenu(
 				);
 				const deleteEC2InstanceCommand = new DeleteEC2InstanceCommand(
 					ec2Service,
+					emailQueue,
 					instanceId,
 				);
 				await deleteEC2InstanceCommand.execute();
@@ -99,6 +109,7 @@ export function createAwsMenu(
 				);
 				const rebootEC2InstanceCommand = new RebootEC2InstanceCommand(
 					ec2Service,
+					emailQueue,
 					instanceId,
 				);
 				await rebootEC2InstanceCommand.execute();
