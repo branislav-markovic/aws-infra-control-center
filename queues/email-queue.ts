@@ -1,6 +1,5 @@
-import { Queue } from "bullmq";
-import { EMAIL_QUEUE_NAME } from "./config.js";
+import { EmailQueueFactory } from "../factories/email-queue.factory.js";
 
-const emailQueue = new Queue(EMAIL_QUEUE_NAME);
+const emailQueue = EmailQueueFactory.create();
 
 export default emailQueue;
