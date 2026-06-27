@@ -1,11 +1,14 @@
 import { styleText } from "node:util";
+import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
-import emailQueue from "../queues/email-queue.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class ListEC2InstancesCommand implements AWSCommand {
-	constructor(private ec2Service: EC2Service) {}
+	constructor(
+		private ec2Service: EC2Service,
+		private emailQueue: Queue,
+	) {}
 
 	async execute(): Promise<void> {
 		try {
@@ -15,13 +18,13 @@ export class ListEC2InstancesCommand implements AWSCommand {
 			const message =
 				"Failed to list EC2 instances. Please check your AWS configuration and permissions.";
 			logger.error(message, error);
-			await emailQueue.add("listEc2Failed", {
+			await this.emailQueue.add("listEc2Failed", {
 				message,
 				command: "ListEC2InstancesCommand",
 				error: {
-					name: (error as Error).name ?? '',
-					message: (error as Error).message ?? '',
-					stack: (error as Error).stack ?? '',
+					name: (error as Error).name ?? "",
+					message: (error as Error).message ?? "",
+					stack: (error as Error).stack ?? "",
 				},
 			});
 		}

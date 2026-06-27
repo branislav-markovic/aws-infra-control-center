@@ -12,7 +12,15 @@ test("execute calls rebootInstance with correct instance id", async () => {
 		},
 	} as EC2Service;
 
-	const command = new RebootEC2InstanceCommand(fakeEC2Service, "i-456");
+	const fakeEmailQueue = {
+		add: async () => Promise.resolve(),
+	};
+
+	const command = new RebootEC2InstanceCommand(
+		fakeEC2Service,
+		fakeEmailQueue,
+		"i-456",
+	);
 	await command.execute();
 
 	assert.strictEqual(receivedInstanceId, "i-456");

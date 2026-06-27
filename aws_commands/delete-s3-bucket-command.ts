@@ -1,11 +1,12 @@
+import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
-import emailQueue from "../queues/email-queue.js";
 import type { S3Service } from "../services/s3-service.js";
 
 export class DeleteS3BucketCommand implements AWSCommand {
 	constructor(
 		private s3Service: S3Service,
+		private emailQueue: Queue,
 		private bucketName: string,
 	) {}
 
@@ -16,14 +17,14 @@ export class DeleteS3BucketCommand implements AWSCommand {
 		} catch (error) {
 			const message = `Failed to delete S3 bucket "${this.bucketName}". Please check the bucket name and your AWS permissions.`;
 			logger.error(message, error);
-			await emailQueue.add("deleteS3Failed", {
+			await this.emailQueue.add("deleteS3Failed", {
 				message,
 				command: "DeleteS3BucketCommand",
 				resourceId: this.bucketName,
 				error: {
-					name: (error as Error).name ?? '',
-					message: (error as Error).message ?? '',
-					stack: (error as Error).stack ?? '',
+					name: (error as Error).name ?? "",
+					message: (error as Error).message ?? "",
+					stack: (error as Error).stack ?? "",
 				},
 			});
 		}
