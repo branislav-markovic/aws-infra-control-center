@@ -6,7 +6,7 @@
 	"scripts": {
 		"tsc": "npx tsc --watch",
 		"dev": "node --watch index.ts",
-		"start": "npx tsx --watch --env-file=.env index.ts",
+		"start": "npx tsx --env-file=.env index.ts",
 		"test": "node --import tsx --test",
 		"coverage": "node --import tsx --test --experimental-test-coverage",
 		"format": "npx @biomejs/biome format . --write",
