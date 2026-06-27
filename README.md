@@ -20,9 +20,10 @@ A simple CLI application built with TypeScript, Node.js and AWS SDK v3 for manag
 
 - TypeScript
 - Node.js
+- MongoDB
+- Redis
 - AWS SDK v3
 - BullMQ
-- Redis
 - Mailhog
 - Docker Compose
 - Zod (input validation)
@@ -200,6 +201,37 @@ Instance "i-0123456789abcdef0" terminated successfully.
 ```bash
 Instance "i-0123456789abcdef0" rebooted successfully.
 ```
+
+## Email failure payload example
+
+```json
+{
+  "message": "Failed to launch EC2 instance. Please check your AWS configuration and permissions.",
+  "command": "LaunchEC2InstanceCommand",
+  "resourceId": null,
+  "error": {
+    "name": "CredentialsProviderError",
+    "message": "Could not load credentials",
+    "stack": "..."
+  }
+}
+```
+
+![MongoDB audit record screenshot](./docs/screenshot-mongodb-audit.png)
+
+## MongoDB audit record example
+
+```json
+{
+  "commandName": "CreateS3BucketCommand",
+  "action": "Create S3 bucket",
+  "resourceId": "my-bucket",
+  "message": "S3 bucket \"my-bucket\" created successfully.",
+  "createdAt": "2026-06-27T13:55:58.000Z"
+}
+```
+
+![Email payload screenshot](./docs/screenshot-email-payload.png)
 
 ---
 
