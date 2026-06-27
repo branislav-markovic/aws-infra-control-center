@@ -20,7 +20,11 @@ export class RebootEC2InstanceCommand implements AWSCommand {
 				message,
 				command: "RebootEC2InstanceCommand",
 				resourceId: this.instanceId,
-				error,
+				error: {
+					name: (error as Error).name ?? '',
+					message: (error as Error).message ?? '',
+					stack: (error as Error).stack ?? '',
+				},
 			});
 		}
 	}

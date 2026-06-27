@@ -23,7 +23,14 @@ export const renderCommandFailureEmail = (data: {
         <title>AWS Command Failure Notification</title>
         <style>
         body { font-family: Arial, sans-serif; line-height: 1.4 }
-        pre { background:#f6f8fa; padding:8px; border-radius:4px; }
+        pre {
+            background: #f6f8fa;
+            padding: 8px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
         </style>
     </head>
     <body>

@@ -23,7 +23,11 @@ export class LaunchEC2Instance implements AWSCommand {
 			await emailQueue.add("launchEc2Failed", {
 				message,
 				command: "LaunchEC2Instance",
-				error,
+				error: {
+					name: (error as Error).name ?? '',
+					message: (error as Error).message ?? '',
+					stack: (error as Error).stack ?? '',
+				},
 			});
 		}
 	}

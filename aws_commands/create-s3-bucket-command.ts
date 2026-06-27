@@ -26,7 +26,11 @@ export class CreateS3BucketCommand implements AWSCommand {
 				message,
 				command: "CreateS3BucketCommand",
 				resourceId: this.bucketName,
-				error,
+				error: {
+					name: (error as Error).name ?? '',
+					message: (error as Error).message ?? '',
+					stack: (error as Error).stack ?? '',
+				},
 			});
 		}
 	}

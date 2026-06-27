@@ -20,7 +20,11 @@ export class DeleteS3BucketCommand implements AWSCommand {
 				message,
 				command: "DeleteS3BucketCommand",
 				resourceId: this.bucketName,
-				error,
+				error: {
+					name: (error as Error).name ?? '',
+					message: (error as Error).message ?? '',
+					stack: (error as Error).stack ?? '',
+				},
 			});
 		}
 	}

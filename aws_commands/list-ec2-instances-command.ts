@@ -18,7 +18,11 @@ export class ListEC2InstancesCommand implements AWSCommand {
 			await emailQueue.add("listEc2Failed", {
 				message,
 				command: "ListEC2InstancesCommand",
-				error,
+				error: {
+					name: (error as Error).name ?? '',
+					message: (error as Error).message ?? '',
+					stack: (error as Error).stack ?? '',
+				},
 			});
 		}
 	}
