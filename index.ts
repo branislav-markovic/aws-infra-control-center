@@ -2,9 +2,10 @@ import { stdin as input, stdout as output } from "node:process";
 import readline from "node:readline/promises";
 import { styleText } from "node:util";
 import { createAwsMenu } from "./aws-menu.js";
-import { connectDB } from "./config/mongodb.js";
+import { connectDB, closeDB } from "./config/mongodb.js";
 import { EC2ServiceFactory } from "./factories/ec2-service.factory.js";
 import { S3ServiceFactory } from "./factories/s3-service.factory.js";
+import emailQueue from "./queues/email-queue.js";
 import type { MenuItem } from "./interfaces/menu-item.ts";
 import type { EC2Service } from "./services/ec2-service.js";
 import { PromptService } from "./services/prompt-service.js";
@@ -20,32 +21,37 @@ async function main(ec2Service: EC2Service, s3Service: S3Service) {
 		menu.map((item) => [item.id, item]),
 	);
 
-	let running = true;
-	while (running) {
-		console.clear();
-		console.log(styleText("yellow", "AWS CLI Menu:"));
+	try {
+		let running = true;
+		while (running) {
+			console.clear();
+			console.log(styleText("yellow", "AWS CLI Menu:"));
 
-		menu.forEach((menuItem) => {
-			const item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
-			console.log(styleText("cyan", item));
-		});
+			menu.forEach((menuItem) => {
+				const item = `${menuItem.id}. ${menuItem.icon} ${menuItem.label}`;
+				console.log(styleText("cyan", item));
+			});
 
-		const choice = await rl.question("Please select an option: ");
-		if (Number(choice) === 0) {
-			console.log(styleText("yellow", "Exiting..."));
-			running = false;
-			continue;
+			const choice = await rl.question("Please select an option: ");
+			if (Number(choice) === 0) {
+				console.log(styleText("yellow", "Exiting..."));
+				running = false;
+				continue;
+			}
+
+			const selectedAction = menuMap.get(Number(choice));
+			if (selectedAction) {
+				await selectedAction.action();
+			} else {
+				console.log(styleText("red", "Invalid option selected."));
+			}
+			await rl.question("Press Enter to continue...");
 		}
-
-		const selectedAction = menuMap.get(Number(choice));
-		if (selectedAction) {
-			await selectedAction.action();
-		} else {
-			console.log(styleText("red", "Invalid option selected."));
-		}
-		await rl.question("Press Enter to continue...");
+	} finally {
+		rl.close();
+		await emailQueue.close();
+		await closeDB();
 	}
-	rl.close();
 }
 
 main(EC2ServiceFactory.create(), S3ServiceFactory.create());
