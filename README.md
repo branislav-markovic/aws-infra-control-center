@@ -21,6 +21,13 @@ A simple CLI application built with TypeScript, Node.js and AWS SDK v3 for manag
 - TypeScript
 - Node.js
 - AWS SDK v3
+- BullMQ
+- Redis
+- Mailhog
+- Docker Compose
+- Zod (input validation)
+- Winston (logging)
+- Biome (formatting/linting)
 
 ---
 
@@ -117,6 +124,13 @@ export const awsConfig = {
 ---
 
 # Running the Application
+
+The app requires Redis and the email worker to be running.
+
+```bash
+docker compose up -d
+npm run email-worker
+```
 
 Development mode:
 
