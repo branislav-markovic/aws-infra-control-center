@@ -2,6 +2,7 @@ import { styleText } from "node:util";
 import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import { AuditLogModel } from "../models/ActionLog.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class LaunchEC2Instance implements AWSCommand {
@@ -13,12 +14,14 @@ export class LaunchEC2Instance implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			const instanceId = await this.ec2Service.launchInstance();
-			console.log(
-				styleText(
-					"green",
-					`EC2 instance launched successfully. Instance ID: ${instanceId}`,
-				),
-			);
+			const message = `EC2 instance launched successfully. Instance ID: ${instanceId}`;
+			await AuditLogModel.create({
+				commandName: "LaunchEC2InstanceCommand",
+				action: "Launch EC2 instance",
+				resourceId: instanceId,
+				message,
+			});
+			console.log(styleText("green", message));
 		} catch (error) {
 			const message =
 				"Failed to launch EC2 instance. Please check your AWS configuration and permissions.";

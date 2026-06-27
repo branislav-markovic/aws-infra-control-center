@@ -1,6 +1,7 @@
 import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import { AuditLogModel } from "../models/ActionLog.js";
 import type { S3Service } from "../services/s3-service.js";
 
 export class DeleteS3BucketCommand implements AWSCommand {
@@ -13,7 +14,14 @@ export class DeleteS3BucketCommand implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			await this.s3Service.deleteBucket(this.bucketName);
-			console.log(`S3 bucket "${this.bucketName}" deleted successfully.`);
+			const message = `S3 bucket "${this.bucketName}" deleted successfully.`;
+			await AuditLogModel.create({
+				commandName: "DeleteS3BucketCommand",
+				action: "Delete S3 bucket",
+				resourceId: this.bucketName,
+				message,
+			});
+			console.log(message);
 		} catch (error) {
 			const message = `Failed to delete S3 bucket "${this.bucketName}". Please check the bucket name and your AWS permissions.`;
 			logger.error(message, error);

@@ -1,6 +1,7 @@
 import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import { AuditLogModel } from "../models/ActionLog.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class RebootEC2InstanceCommand implements AWSCommand {
@@ -13,7 +14,14 @@ export class RebootEC2InstanceCommand implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			await this.ec2Service.rebootInstance(this.instanceId);
-			console.log(`EC2 instance "${this.instanceId}" rebooted successfully.`);
+			const msg = `EC2 instance "${this.instanceId}" rebooted successfully.`;
+			await AuditLogModel.create({
+				commandName: "RebootEC2InstanceCommand",
+				action: "Reboot EC2 instance",
+				resourceId: this.instanceId,
+				message: msg,
+			});
+			console.log(msg);
 		} catch (error) {
 			const message = `Failed to reboot EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`;
 			logger.error(message, error);

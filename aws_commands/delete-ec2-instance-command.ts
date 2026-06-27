@@ -1,6 +1,7 @@
 import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import { AuditLogModel } from "../models/ActionLog.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class DeleteEC2InstanceCommand implements AWSCommand {
@@ -13,7 +14,14 @@ export class DeleteEC2InstanceCommand implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			await this.ec2Service.terminateInstance(this.instanceId);
-			console.log(`EC2 instance "${this.instanceId}" terminated successfully.`);
+			const message = `EC2 instance "${this.instanceId}" terminated successfully.`;
+			await AuditLogModel.create({
+				commandName: "DeleteEC2InstanceCommand",
+				action: "Terminate EC2 instance",
+				resourceId: this.instanceId,
+				message,
+			});
+			console.log(message);
 		} catch (error) {
 			const message = `Failed to terminate EC2 instance "${this.instanceId}". Please check the instance ID and your AWS permissions.`;
 			logger.error(message, error);

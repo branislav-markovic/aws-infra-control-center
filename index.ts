@@ -2,6 +2,7 @@ import { stdin as input, stdout as output } from "node:process";
 import readline from "node:readline/promises";
 import { styleText } from "node:util";
 import { createAwsMenu } from "./aws-menu.js";
+import { connectDB } from "./config/mongodb.js";
 import { EC2ServiceFactory } from "./factories/ec2-service.factory.js";
 import { S3ServiceFactory } from "./factories/s3-service.factory.js";
 import type { MenuItem } from "./interfaces/menu-item.ts";
@@ -10,6 +11,7 @@ import { PromptService } from "./services/prompt-service.js";
 import type { S3Service } from "./services/s3-service.js";
 
 async function main(ec2Service: EC2Service, s3Service: S3Service) {
+	await connectDB();
 	const rl = readline.createInterface({ input, output });
 	const promptService = new PromptService(rl);
 	const menu = createAwsMenu(ec2Service, s3Service, promptService);

@@ -2,6 +2,7 @@ import { styleText } from "node:util";
 import type { Queue } from "bullmq";
 import logger from "../config/logger.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import { AuditLogModel } from "../models/ActionLog.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class ListEC2InstancesCommand implements AWSCommand {
@@ -13,7 +14,14 @@ export class ListEC2InstancesCommand implements AWSCommand {
 	async execute(): Promise<void> {
 		try {
 			const result = await this.ec2Service.listInstances();
-			console.log(styleText("green", `EC2 Instances:\n${result}`));
+			const message = `EC2 Instances:\n${result}`;
+			await AuditLogModel.create({
+				commandName: "ListEC2InstancesCommand",
+				action: "List EC2 instances",
+				resourceId: null,
+				message,
+			});
+			console.log(styleText("green", message));
 		} catch (error) {
 			const message =
 				"Failed to list EC2 instances. Please check your AWS configuration and permissions.";

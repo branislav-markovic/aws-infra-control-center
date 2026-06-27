@@ -37,6 +37,7 @@
 		"@aws-sdk/client-s3": "^3.1053.0",
 		"bullmq": "^5.79.0",
 		"ioredis": "^5.11.1",
+		"mongoose": "^9.7.3",
 		"nodemailer": "^9.0.1",
 		"winston": "^3.19.0",
 		"zod": "^4.4.3"
