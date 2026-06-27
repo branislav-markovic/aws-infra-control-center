@@ -26,6 +26,21 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+  app:
+    build: .
+    container_name: aws-infra-control-center-app
+    restart: unless-stopped
+    env_file:
+      - .env.dist
+    depends_on:
+      - redis
+      - mongodb
+      - mailhog
+    working_dir: /app
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/app
 volumes:
   redis_data:
   mongo_data:
