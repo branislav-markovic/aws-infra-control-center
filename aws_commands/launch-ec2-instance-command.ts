@@ -1,7 +1,7 @@
 import { styleText } from "node:util";
 import logger from "../config/logger.js";
-import emailQueue from "../queues/email-queue.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import emailQueue from "../queues/email-queue.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class LaunchEC2Instance implements AWSCommand {
@@ -17,7 +17,8 @@ export class LaunchEC2Instance implements AWSCommand {
 				),
 			);
 		} catch (error) {
-			const message = "Failed to launch EC2 instance. Please check your AWS configuration and permissions.";
+			const message =
+				"Failed to launch EC2 instance. Please check your AWS configuration and permissions.";
 			logger.error(message, error);
 			await emailQueue.add("launchEc2Failed", {
 				message,

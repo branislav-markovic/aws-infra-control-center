@@ -1,6 +1,6 @@
 import logger from "../config/logger.js";
-import emailQueue from "../queues/email-queue.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import emailQueue from "../queues/email-queue.js";
 import type { EC2Service } from "../services/ec2-service.js";
 
 export class DeleteEC2InstanceCommand implements AWSCommand {

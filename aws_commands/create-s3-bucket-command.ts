@@ -1,7 +1,7 @@
 import { styleText } from "node:util";
 import logger from "../config/logger.js";
-import emailQueue from "../queues/email-queue.js";
 import type { AWSCommand } from "../interfaces/aws-command.js";
+import emailQueue from "../queues/email-queue.js";
 import type { S3Service } from "../services/s3-service.js";
 
 export class CreateS3BucketCommand implements AWSCommand {
