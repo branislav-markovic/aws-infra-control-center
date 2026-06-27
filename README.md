@@ -37,9 +37,16 @@ A simple CLI application built with TypeScript, Node.js and AWS SDK v3 for manag
 ```bash
 ├── aws_commands/
 ├── config/
+├── docs/
+├── emails/
 ├── factories/
 ├── interfaces/
+├── logs/
+├── models/
+├── queues/
 ├── services/
+├── tests/
+├── workers/
 └── index.ts
 ```
 
@@ -59,6 +66,24 @@ The project follows a simple layered architecture:
 
 - `config/`
   - AWS configuration
+
+- `docs/`
+  - Documentation assets like screenshots
+
+- `emails/`
+  - Email templates and content generation
+
+- `logs/`
+  - Application logging output
+
+- `models/`
+  - Database and audit models
+
+- `queues/`
+  - Queue configuration and exports
+
+- `workers/`
+  - Background job processors (email worker)
 
 ---
 
@@ -245,6 +270,8 @@ This project was built for practicing:
 - Factory Pattern
 - Command Pattern
 - CLI application architecture
+- Queue-driven error handling with BullMQ
+- MongoDB audit logging
 - Clean code principles
 
 ---
